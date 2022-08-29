@@ -2,8 +2,6 @@ repeat
     wait()
 until game:IsLoaded()
 
-game.Loaded:Wait()
-
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
