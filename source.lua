@@ -13,22 +13,22 @@ if _G.hopAtPlayerAmount > 0 then
         while wait() do
             if #game.Players:GetChildren() <= _G.hopAtPlayerAmount then
                 syn.queue_on_teleport([[
-                _G.goal = ]] .._G.goal.. [[
-                _G.Text = ]] .._G.Text.. [[
+                _G.goal = ]] ..'"'.._G.goal ..'"'.. [[
+                _G.Text = ]] .. '"' .. _G.Text ..'"'.. [[
 
-                _G.saythanks = ]] ..tostring(_G.saythanks).. [[
+                _G.saythanks = ]] .. '"' ..tostring(_G.saythanks) ..'"'.. [[
 
-                _G.beg = ]] ..tostring(_G.beg).. [[
-                _G.begInterval = ]] ..tostring(_G.begInterval).. [[
-                _G.begText = ]] .. _G.begText .. [[
+                _G.beg = ]] ..tostring(_G.beg)..'"'.. [[
+                _G.begInterval = ]] ..'"' ..tostring(_G.begInterval)..'"'.. [[
+                _G.begText = ]] .. '"' .._G.begText..'"' .. [[
 
-                _G.hopAtPlayerAmount = ]]..tostring(_G.hopAtPlayerAmount).. [[
-                _G.hopInterval = ]].. tostring(_G.hopInterval) .. [[
+                _G.hopAtPlayerAmount = ]]..'"' ..tostring(_G.hopAtPlayerAmount)..'"'.. [[
+                _G.hopInterval = ]].. '"' ..tostring(_G.hopInterval)..'"' .. [[
                 
-                _G.boardUpdateInterval = ]] .. tostring(_G.boardUpdateInterval) .. [[ -- as you can guess, in seconds
+                _G.boardUpdateInterval = ]] .. '"' ..tostring(_G.boardUpdateInterval)..'"' .. [[ -- as you can guess, in seconds
                 
                 -- DONT Change! (or do if yk what you're doing)
-                _G.loadstr = ]].. _G.loadstr .. [[
+                _G.loadstr = ]].. '"' .._G.loadstr..'"' .. [[
 
                 loadstring(game:HttpGet(_G.loadstr, true))()]])
     
@@ -88,24 +88,24 @@ if _G.hopInterval > 0 then
     spawn(function()
         wait(_G.hopInterval)
         syn.queue_on_teleport([[
-            _G.goal = ]] .._G.goal.. [[
-            _G.Text = ]] .._G.Text.. [[
+            _G.goal = ]] ..'"'.._G.goal ..'"'.. [[
+            _G.Text = ]] .. '"' .. _G.Text ..'"'.. [[
 
-            _G.saythanks = ]] ..tostring(_G.saythanks).. [[
+            _G.saythanks = ]] .. '"' ..tostring(_G.saythanks) ..'"'.. [[
 
-            _G.beg = ]] ..tostring(_G.beg).. [[
-            _G.begInterval = ]] ..tostring(_G.begInterval).. [[
-            _G.begText = ]] .. _G.begText .. [[
+            _G.beg = ]] ..tostring(_G.beg)..'"'.. [[
+            _G.begInterval = ]] ..'"' ..tostring(_G.begInterval)..'"'.. [[
+            _G.begText = ]] .. '"' .._G.begText..'"' .. [[
 
-            _G.hopAtPlayerAmount = ]]..tostring(_G.hopAtPlayerAmount).. [[
-            _G.hopInterval = ]].. tostring(_G.hopInterval) .. [[
+            _G.hopAtPlayerAmount = ]]..'"' ..tostring(_G.hopAtPlayerAmount)..'"'.. [[
+            _G.hopInterval = ]].. '"' ..tostring(_G.hopInterval)..'"' .. [[
             
-            _G.boardUpdateInterval = ]] .. tostring(_G.boardUpdateInterval) .. [[ -- as you can guess, in seconds
+            _G.boardUpdateInterval = ]] .. '"' ..tostring(_G.boardUpdateInterval)..'"' .. [[ -- as you can guess, in seconds
             
             -- DONT Change! (or do if yk what you're doing)
-            _G.loadstr = ]].. _G.loadstr .. [[
+            _G.loadstr = ]].. '"' .._G.loadstr..'"' .. [[
 
-        loadstring(game:HttpGet(_G.loadstr, true))()]])
+            loadstring(game:HttpGet(_G.loadstr, true))()]])
     
         local GUIDs = {}
         local maxPlayers = 0
