@@ -155,7 +155,7 @@ if _G.hopInterval > 0 then
     end)
 end
 
-print("Past the Interval")
+print("Server Hop Interval Loaded")
 
 local lib = require(game.ReplicatedStorage.Remotes)
 
@@ -194,6 +194,10 @@ end
 print("Hooks Done")
 
 -- Claim Board
+
+repeat
+    wait()
+until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MapUIContainer"):FindFirstChild("MapUI"):FindFirstChild("BoothUI")["BoothUI"..tostring(v:GetAttribute("BoothSlot"))]
 
 for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
     if game.Players.LocalPlayer.PlayerGui.MapUIContainer.MapUI.BoothUI["BoothUI"..tostring(v:GetAttribute("BoothSlot"))].Details.Owner.Text == "unclaimed" then
