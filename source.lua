@@ -2,6 +2,8 @@ repeat
     wait()
 until game:IsLoaded()
 
+game.Loaded:Wait()
+
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
@@ -194,10 +196,6 @@ end
 print("Hooks Done")
 
 -- Claim Board
-
-repeat
-    wait(1.5)
-until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MapUIContainer"):FindFirstChild("MapUI"):FindFirstChild("BoothUI")
 
 for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
     if game.Players.LocalPlayer.PlayerGui.MapUIContainer.MapUI.BoothUI["BoothUI"..tostring(v:GetAttribute("BoothSlot"))].Details.Owner.Text == "unclaimed" then
