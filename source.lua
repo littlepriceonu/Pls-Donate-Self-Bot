@@ -28,11 +28,13 @@ if _G.hopAtPlayerAmount > 0 then
 
                 loadstring(game:HttpGet(_G.loadstr, true))()]])
     
+
+
                 local GUIDs = {}
                 local maxPlayers = 0
                 local pagesToSearch = 100
-                local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
                 function Search()
+                local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
                    for i = 1,pagesToSearch do
                     for i,v in pairs(Http.data) do
                         if v.playing ~= v.maxPlayers and v.id ~= game.JobId then
@@ -42,15 +44,22 @@ if _G.hopAtPlayerAmount > 0 then
                     end
                     print("Searched!")
                     if Http.nextPageCursor ~= null then Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..Http.nextPageCursor)) else break end
-                end
+                end 
                 end
 
                 local highest = {id = "", users=0}
                 function findHighest()
-                for i,v in ipairs(GUIDs) do
-                    if v.users > highest.users and not (v.users > (maxPlayers - 4)) then
-                        highest = v
-                    end
+                local suc = pcall(function()
+                    for i,v in ipairs(GUIDs) do
+                        if v.users > highest.users and not (v.users > (maxPlayers - 4)) then
+                            highest = v
+                        end
+                    end 
+                end)
+
+                if not suc then 
+                   Search()
+                   findHighest()
                 end
                 end
 
@@ -63,6 +72,8 @@ if _G.hopAtPlayerAmount > 0 then
                     end
                 end
 
+                Search()
+                findHighest()
                 tp()
             end
         end
@@ -90,13 +101,13 @@ if _G.hopInterval > 0 then
             -- DONT Change! (or do if yk what you're doing)
             _G.loadstr = ]].. _G.loadstr .. [[
 
-            loadstring(game:HttpGet(_G.loadstr, true))()]])
+        loadstring(game:HttpGet(_G.loadstr, true))()]])
     
         local GUIDs = {}
         local maxPlayers = 0
         local pagesToSearch = 100
-        local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
         function Search()
+        local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
            for i = 1,pagesToSearch do
             for i,v in pairs(Http.data) do
                 if v.playing ~= v.maxPlayers and v.id ~= game.JobId then
@@ -108,16 +119,23 @@ if _G.hopInterval > 0 then
             if Http.nextPageCursor ~= null then Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..Http.nextPageCursor)) else break end
         end 
         end
-
+    
         local highest = {id = "", users=0}
         function findHighest()
-        for i,v in ipairs(GUIDs) do
-            if v.users > highest.users and not (v.users > (maxPlayers - 4)) then
-                highest = v
-            end
+        local suc = pcall(function()
+            for i,v in ipairs(GUIDs) do
+                if v.users > highest.users and not (v.users > (maxPlayers - 4)) then
+                    highest = v
+                end
+            end 
+        end)
+    
+        if not suc then 
+           Search()
+           findHighest()
         end
         end
-
+    
         function tp()
            local suc = pcall(function() game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, highest.id, game.Players.LocalPlayer) end)
            if not suc then 
@@ -126,7 +144,9 @@ if _G.hopInterval > 0 then
                 tp()
             end
         end
-
+    
+        Search()
+        findHighest()
         tp()
     end)
 end
@@ -171,7 +191,7 @@ for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
     if game.Players.LocalPlayer.PlayerGui.MapUIContainer.MapUI.BoothUI["BoothUI"..tostring(v:GetAttribute("BoothSlot"))].Details.Owner.Text == "unclaimed" then
         fireproximityprompt(v.Claim, 0)
         game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(v.CFrame.x+3, v.CFrame.y+3, v.CFrame.z+3)
-        return
+        break
     end
 end
 
@@ -207,11 +227,15 @@ end
 
 local last = 0
 
+print("Got Here")
+
 while wait(_G.boardUpdateInterval) do
+    print("Board Updated")
     if tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) > last and _G.saythanks then
-        game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Thanks for donating "..tostring(tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) - last).."$!","All")
+        if _G.saythanks then
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Thanks for donating "..tostring(tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) - last).."$!","All")        
+        end
+        event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " .. _G.goal, "booth")
+        last = tonumber(ourbooth.Details.Raised.Text:split(" ")[1])
     end
-    
-    last = tonumber(ourbooth.Details.Raised.Text:split(" ")[1])
-    event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " .. _G.goal, "booth")
 end
