@@ -196,8 +196,8 @@ print("Hooks Done")
 -- Claim Board
 
 repeat
-    wait()
-until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MapUIContainer"):FindFirstChild("MapUI"):FindFirstChild("BoothUI")["BoothUI"..tostring(v:GetAttribute("BoothSlot"))]
+    wait(1.5)
+until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MapUIContainer"):FindFirstChild("MapUI"):FindFirstChild("BoothUI")
 
 for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
     if game.Players.LocalPlayer.PlayerGui.MapUIContainer.MapUI.BoothUI["BoothUI"..tostring(v:GetAttribute("BoothSlot"))].Details.Owner.Text == "unclaimed" then
