@@ -17,6 +17,6 @@ _G.hopInterval = 60 * 60 -- if 0 then wont hop after interval has passed (in sec
 _G.boardUpdateInterval = 0 -- as you can guess, in seconds
 
 -- DONT Change! (or do if yk what you're doing)
-_G.loadstr = "raw.githubusercontent.com/littlepriceonu/Pls-Donate-Self-Bot/main/source.lua"
+_G.loadstr = "https://raw.githubusercontent.com/littlepriceonu/Pls-Donate-Self-Bot/main/source.lua"
 
 loadstring(game:HttpGet(_G.loadstr, true))()
