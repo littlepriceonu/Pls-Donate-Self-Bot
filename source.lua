@@ -155,6 +155,8 @@ if _G.hopInterval > 0 then
     end)
 end
 
+print("Past the Interval")
+
 local lib = require(game.ReplicatedStorage.Remotes)
 
 old = hookfunction(lib.Event, function(name, ...)
@@ -189,6 +191,8 @@ for i,v in ipairs(data) do
     lib.Function(v)
 end
 
+print("Hooks Done")
+
 -- Claim Board
 
 for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
@@ -199,6 +203,7 @@ for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
     end
 end
 
+print("Done Claiming Board")
 -- Setup Board
 
 local event = lib.Event("SetBoothText")
@@ -217,7 +222,9 @@ for i,v in ipairs(boothui:GetChildren()) do
 end
 end
 
-repeat getOurBooth(); wait() until ourbooth
+repeat getOurBooth(); print("Wating For Booth!"); wait(); until ourbooth
+
+print("Got Our Board")
 
 event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " .. _G.goal, "booth")
 
@@ -229,12 +236,12 @@ if _G.beg then
     end) 
 end
 
-local last = 0
+print("Begging Loop Done")
 
-print("Got Here")
+local last = tonumber(ourbooth.Details.Raised.Text:split(" ")[1])
+
 
 while wait(_G.boardUpdateInterval) do
-    print("Board Updated")
     if tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) > last and _G.saythanks then
         if _G.saythanks then
             game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Thanks for donating "..tostring(tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) - last).."$!","All")        
