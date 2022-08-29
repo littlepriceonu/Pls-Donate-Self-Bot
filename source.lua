@@ -231,7 +231,7 @@ event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " 
 if _G.beg then
     spawn(function()
         while wait(_G.begInterval) do
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(_G.begText)
+            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(_G.begText, "all")
         end
     end) 
 end
