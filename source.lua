@@ -203,7 +203,7 @@ for i,v in ipairs(game.Workspace.BoothInteractions:GetChildren()) do
     end
 end
 
-print("Done Claiming Board")
+print("Done Claiming Booth")
 -- Setup Board
 
 local event = lib.Event("SetBoothText")
@@ -224,7 +224,7 @@ end
 
 repeat getOurBooth(); print("Wating For Booth!"); wait(); until ourbooth
 
-print("Got Our Board")
+print("Got Our Booth")
 
 event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " .. _G.goal, "booth")
 
