@@ -1,5 +1,5 @@
 repeat
-    wait()
+    wait(); print("Waiting For Load")
 until game:IsLoaded()
 
 local VirtualUser=game:service'VirtualUser'
