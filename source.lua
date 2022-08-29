@@ -1,3 +1,7 @@
+repeat
+    wait()
+until game:IsLoaded()
+
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
 VirtualUser:CaptureController()
