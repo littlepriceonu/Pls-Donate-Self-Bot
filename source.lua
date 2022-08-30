@@ -17,7 +17,9 @@ if _G.hopAtPlayerAmount > 0 then
                     _G.Text = ]] .. '[[' .. _G.Text ..']]'.. [[
         
                     _G.saythanks = ]] .. tostring(_G.saythanks).. [[
-        
+                    _G.thanksText = ]] ..'"'.._G.thanksText ..'"'.. [[
+                    _G.thanksWaitTime = ]] .. tostring(_G.thanksWaitTime) .. [[
+
                     _G.beg = ]] ..tostring(_G.beg).. [[
                     _G.begInterval = ]] ..tostring(_G.begInterval).. [[
                     _G.begText = ]] .. '"' .._G.begText..'"' .. [[
@@ -92,6 +94,8 @@ if _G.hopInterval > 0 then
             _G.Text = ]] .. '[[' .. _G.Text ..']]'.. [[
 
             _G.saythanks = ]] .. tostring(_G.saythanks).. [[
+            _G.thanksText = ]] ..'"'.._G.thanksText ..'"'.. [[
+            _G.thanksWaitTime = ]] .. tostring(_G.thanksWaitTime) .. [[
 
             _G.beg = ]] ..tostring(_G.beg).. [[
             _G.begInterval = ]] ..tostring(_G.begInterval).. [[
@@ -238,15 +242,23 @@ end
 
 print("Begging Loop Done")
 
-local last = tonumber(ourbooth.Details.Raised.Text:split(" ")[1])
-
+local plast = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
+local last = tonumber(plast)
+local llast
 
 while wait(_G.boardUpdateInterval) do
-    if tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) > last and _G.saythanks then
+    local plast = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
+    if tonumber(plast) > last and _G.saythanks then
         if _G.saythanks then
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("Thanks for donating "..tostring(tonumber(ourbooth.Details.Raised.Text:split(" ")[1]) - last).."$!","All")        
+            llast = last
+            spawn(function()
+                wait(_G.thanksWaitTime)
+                local num, occ = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
+                num = tonumber(num)
+                game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(string.format(_G.thanksText, tostring(tonumber(num)) - llast),"All")            
+            end)
         end
-        event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " .. _G.goal, "booth")
-        last = tonumber(ourbooth.Details.Raised.Text:split(" ")[1])
+        event:FireServer(_G.Text .. plast .. " / " .. _G.goal, "booth")
+        last = tonumber(plast)
     end
 end
