@@ -16,7 +16,6 @@ It will also server hop depending on the amount of players or if you want to set
 ```lua
 -- You can change these
 
-game.Loaded:Wait()
 _G.goal = "5k!" -- the goal it will auto set at the end of the text
 _G.Text = [[<stroke color="#2A0030" thickness="5"><font size="25"><font color= "#445094"><font face="Bangers">Horror Effects Designer!</font></font></font></stroke>
 Anything Helps!
