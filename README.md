@@ -16,22 +16,23 @@ It will also server hop depending on the amount of players or if you want to set
 ```lua
 -- You can change these
 
+
 _G.goal = "5k!" -- the goal it will auto set at the end of the text
 _G.Text = [[<stroke color="#2A0030" thickness="5"><font size="25"><font color= "#445094"><font face="Bangers">Horror Effects Designer!</font></font></font></stroke>
 Anything Helps!
 Status: AFK
-]] -- the text before the goal text (i.e "please help me out!\n 512/1K")
+]] -- the text before the goal text (i.e "please help me out!\n Im a upcoming game dev!!!", replace the \n with a white space)
 
-_G.saythanks = true
+_G.saythanks = true -- Says thank you when they purchase something ("Thanks For Donating {Amount they donated}$!")
 
-_G.beg = false
-_G.begInterval = 4 -- In Seconds
-_G.begText = "Please Donate! I'm working on a new game!"
+_G.beg = true -- Begs in the chat every time the begInterval has past
+_G.begInterval = 105 -- In Seconds
+_G.begText = "Please Donate! I'm working on a new game!" -- text to beg with
 
-_G.hopAtPlayerAmount = 14 -- If 0 then wont hop at player amount
-_G.hopInterval = 60 * 20 -- if 0 then wont hop after interval has passed (in seconds again)
+_G.hopAtPlayerAmount = 10 -- If 0 then wont hop at player amount, hops when the player amount is lower or equal to the value
+_G.hopInterval = 60 * 60 -- if 0 then wont hop after interval has passed (in seconds again), hops when this amount of time has past
 
-_G.boardUpdateInterval = 0 -- as you can guess, in seconds
+_G.boardUpdateInterval = 0 -- as you can guess, in seconds, how fast the goal updates
 
 -- DONT Change! (or do if yk what you're doing)
 _G.loadstr = "https://raw.githubusercontent.com/littlepriceonu/Pls-Donate-Self-Bot/main/source.lua"
