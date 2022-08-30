@@ -13,6 +13,9 @@ if _G.hopAtPlayerAmount > 0 then
         while wait() do
             if #game.Players:GetChildren() <= _G.hopAtPlayerAmount then
                 syn.queue_on_teleport([[
+                    _G.autoUpdateGoal = ]] .. tostring(_G.autoUpdateGoal).. [[
+                    _G.increaseGoalBy = ]] ..tostring(_G.increaseGoalBy) .. [[
+
                     _G.goal = ]] ..'"'.._G.goal ..'"'.. [[
                     _G.Text = ]] .. '[[' .. _G.Text ..']]'.. [[
         
@@ -90,6 +93,9 @@ if _G.hopInterval > 0 then
     spawn(function()
         wait(_G.hopInterval)
         syn.queue_on_teleport([[
+            _G.autoUpdateGoal = ]] .. tostring(_G.autoUpdateGoal).. [[
+            _G.increaseGoalBy = ]] ..tostring(_G.increaseGoalBy) .. [[
+
             _G.goal = ]] ..'"'.._G.goal ..'"'.. [[
             _G.Text = ]] .. '[[' .. _G.Text ..']]'.. [[
 
@@ -230,8 +236,6 @@ repeat getOurBooth(); print("Wating For Booth!"); wait(); until ourbooth
 
 print("Got Our Booth")
 
-event:FireServer(_G.Text .. ourbooth.Details.Raised.Text:split(" ")[1] .. " / " .. _G.goal, "booth")
-
 if _G.beg then
     spawn(function()
         while wait(_G.begInterval) do
@@ -246,8 +250,15 @@ local plast = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
 local last = tonumber(plast)
 local llast
 
+if _G.autoUpdateGoal then
+    print("Auto Updating Goal....")
+    event:FireServer(_G.Text .. plast .. " / " .. tostring(tonumber(plast) + _G.increaseGoalBy), "booth")
+else
+    event:FireServer(_G.Text .. plast .. " / " .. _G.goal, "booth")
+end
+
 while wait(_G.boardUpdateInterval) do
-    local plast = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
+    plast = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
     if tonumber(plast) > last and _G.saythanks then
         if _G.saythanks then
             llast = last
@@ -258,7 +269,13 @@ while wait(_G.boardUpdateInterval) do
                 game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(string.format(_G.thanksText, tostring(tonumber(num)) - llast),"All")            
             end)
         end
-        event:FireServer(_G.Text .. plast .. " / " .. _G.goal, "booth")
+
+        if _G.autoUpdateGoal then
+            print("Auto Updating Goal....")
+            event:FireServer(_G.Text .. plast .. " / " .. tostring(tonumber(plast) + _G.increaseGoalBy), "booth")
+        else
+            event:FireServer(_G.Text .. plast .. " / " .. _G.goal, "booth")
+        end
         last = tonumber(plast)
     end
 end

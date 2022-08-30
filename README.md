@@ -16,6 +16,9 @@ It will also server hop depending on the amount of players or if you want to set
 ```lua
 -- You can change these
 
+_G.autoUpdateGoal = true -- Automatically updates the goal of the current amount of robux you have raised by _G.increaseGoalBy amount (i.e. you have 525 robux raised and _G.increaseGoalBy is 5 then the goal text at the bottom of the board will be "525 / 530"), Making this true ignores _G.goal
+_G.increaseGoalBy = 15 -- The Amount of which the autoUpdateGoal increase by 
+
 _G.goal = "5k!" -- the goal it will auto set at the end of the text
 _G.Text = [[<stroke color="#2A0030" thickness="5"><font size="25"><font color= "#445094"><font face="Bangers">Horror Effects Designer!</font></font></font></stroke>
 Anything Helps!
