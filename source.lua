@@ -1,6 +1,10 @@
+---@diagnostic disable: undefined-global, deprecated
 repeat
     wait(); print("Waiting For Load")
 until game:IsLoaded()
+
+repeat wait() until game.Players.LocalPlayer.PlayerGui:FindFirstChild("MapUIContainer"):FindFirstChild("MapUI").BoothUI
+repeat wait() until game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
 
 local VirtualUser=game:service'VirtualUser'
 game:service'Players'.LocalPlayer.Idled:connect(function()
@@ -8,21 +12,21 @@ VirtualUser:CaptureController()
 VirtualUser:ClickButton2(Vector2.new())
 end)
 
+local teleportFunc = queueonteleport or queue_on_teleport or syn and syn.queue_on_teleport
+
 if _G.hopAtPlayerAmount > 0 then
     spawn(function()
         while wait() do
             if #game.Players:GetChildren() <= _G.hopAtPlayerAmount then
-                syn.queue_on_teleport([[
+                teleportFunc([[
                     _G.autoUpdateGoal = ]] .. tostring(_G.autoUpdateGoal).. [[
                     _G.increaseGoalBy = ]] ..tostring(_G.increaseGoalBy) .. [[
-
                     _G.goal = ]] ..'"'.._G.goal ..'"'.. [[
                     _G.Text = ]] .. '[[' .. _G.Text ..']]'.. [[
         
                     _G.saythanks = ]] .. tostring(_G.saythanks).. [[
                     _G.thanksText = ]] ..'"'.._G.thanksText ..'"'.. [[
                     _G.thanksWaitTime = ]] .. tostring(_G.thanksWaitTime) .. [[
-
                     _G.beg = ]] ..tostring(_G.beg).. [[
                     _G.begInterval = ]] ..tostring(_G.begInterval).. [[
                     _G.begText = ]] .. '"' .._G.begText..'"' .. [[
@@ -45,13 +49,13 @@ if _G.hopAtPlayerAmount > 0 then
                 function Search()
                 local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
                    for i = 1,pagesToSearch do
-                    for i,v in pairs(Http.data) do
+                    for _,v in pairs(Http.data) do
                         if v.playing ~= v.maxPlayers and v.id ~= game.JobId then
                             maxPlayers = v.maxPlayers
                             table.insert(GUIDs, {id = v.id, users = v.playing})
                         end
                     end
-                    print("Searched!")
+                    print("Searched! i=", i)
                     if Http.nextPageCursor ~= null then Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..Http.nextPageCursor)) else break end
                 end 
                 end
@@ -66,7 +70,7 @@ if _G.hopAtPlayerAmount > 0 then
                     end 
                 end)
 
-                if not suc then 
+                if not suc then
                    Search()
                    findHighest()
                 end
@@ -92,21 +96,17 @@ end
 if _G.hopInterval > 0 then
     spawn(function()
         wait(_G.hopInterval)
-        syn.queue_on_teleport([[
+        teleportFunc([[
             _G.autoUpdateGoal = ]] .. tostring(_G.autoUpdateGoal).. [[
             _G.increaseGoalBy = ]] ..tostring(_G.increaseGoalBy) .. [[
-
             _G.goal = ]] ..'"'.._G.goal ..'"'.. [[
             _G.Text = ]] .. '[[' .. _G.Text ..']]'.. [[
-
             _G.saythanks = ]] .. tostring(_G.saythanks).. [[
             _G.thanksText = ]] ..'"'.._G.thanksText ..'"'.. [[
             _G.thanksWaitTime = ]] .. tostring(_G.thanksWaitTime) .. [[
-
             _G.beg = ]] ..tostring(_G.beg).. [[
             _G.begInterval = ]] ..tostring(_G.begInterval).. [[
             _G.begText = ]] .. '"' .._G.begText..'"' .. [[
-
             _G.hopAtPlayerAmount = ]]..tostring(_G.hopAtPlayerAmount).. [[
             _G.hopInterval = ]].. tostring(_G.hopInterval) .. [[
             
@@ -114,7 +114,7 @@ if _G.hopInterval > 0 then
             
             -- DONT Change! (or do if yk what you're doing)
             _G.loadstr = ]].. '"' .._G.loadstr..'"' .. [[
-
+            _G.onDonateLoadString =]] .. '"' .._G.onDonateLoadString..'"' .. [[
             loadstring(game:HttpGet(_G.loadstr, true))()]])
     
         local GUIDs = {}
@@ -123,13 +123,13 @@ if _G.hopInterval > 0 then
         function Search()
         local Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="))
            for i = 1,pagesToSearch do
-            for i,v in pairs(Http.data) do
+            for _,v in pairs(Http.data) do
                 if v.playing ~= v.maxPlayers and v.id ~= game.JobId then
                     maxPlayers = v.maxPlayers
                     table.insert(GUIDs, {id = v.id, users = v.playing})
                 end
             end
-            print("Searched!")
+            print("Searched! i=", i)
             if Http.nextPageCursor ~= null then Http = game:GetService("HttpService"):JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..game.PlaceId.."/servers/Public?sortOrder=Asc&limit=100&cursor="..Http.nextPageCursor)) else break end
         end 
         end
@@ -185,7 +185,7 @@ local old2;
 
 old2 = hookfunction(lib.Function, function(name, ...)
     for i,v in ipairs(game.ReplicatedStorage.Remotes:GetChildren()) do
-        if v.Name == name then return v end 
+        if v.Name == name then return v end
     end
     
     local event = old(name, ...)
@@ -259,7 +259,7 @@ end
 
 while wait(_G.boardUpdateInterval) do
     plast = string.gsub(ourbooth.Details.Raised.Text:split(" ")[1], ",", "")
-    if tonumber(plast) > last and _G.saythanks then
+    if tonumber(plast) > last then
         if _G.saythanks then
             llast = last
             spawn(function()
@@ -273,8 +273,10 @@ while wait(_G.boardUpdateInterval) do
         if _G.autoUpdateGoal then
             print("Auto Updating Goal....")
             event:FireServer(_G.Text .. plast .. " / " .. tostring(tonumber(plast) + _G.increaseGoalBy), "booth")
+            loadstring(_G.onDonateLoadString)()
         else
             event:FireServer(_G.Text .. plast .. " / " .. _G.goal, "booth")
+            loadstring(_G.onDonateLoadString)()
         end
         last = tonumber(plast)
     end
