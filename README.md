@@ -4,6 +4,8 @@ A self bot for the roblox experience Pls Donate!
 
 [The Game!](roblox.com/games/8737602449)
 
+*V2 In Development!*
+
 Btw this was written at like 4 am with bare minimum testing so if its buggy just make a issue on github and ill probably get around to fixing it
 
 Its pretty useful if you wanna afk and make some robux or something. Just look at the settings at the top of the
