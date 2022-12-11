@@ -1,10 +1,12 @@
+# No longer being updated
+Updates to keep the script working will still be done.
+The pls donate self bot V2 is currently in development so updates with features will not be added anytime soon
+
 # Pls Donate! Self Bot
 
 A self bot for the roblox experience Pls Donate!
 
 [The Game!](roblox.com/games/8737602449)
-
-*V2 In Development!*
 
 Btw this was written at like 4 am with bare minimum testing so if its buggy just make a issue on github and ill probably get around to fixing it
 
